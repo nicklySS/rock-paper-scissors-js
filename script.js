@@ -25,24 +25,7 @@ const game = () => {
     let playerWins = 0;
     let computerWins = 0;
 
-    for (let i = 0; i < 5; i++) {
-        const playerSelection = prompt("Enter your choice: rock, paper, or scissors");
-        const computerSelection = getComputerChoice();
 
-        console.log(`Round ${i + 1}:`);
-        console.log(`Computer chose: ${computerSelection}`);
-        const result = playRound(playerSelection, computerSelection);
-        console.log(result);
-
-        if (result.includes("win")) {
-            playerWins++;
-        } else if (result.includes("lose")) {
-            computerWins++;
-        }
-    }
-
-    console.log("Game Over!");
-    console.log(`Player wins: ${playerWins}, Computer wins: ${computerWins}`);
 }
 
 game();
