@@ -3,6 +3,19 @@ const getComputerChoice = () => {
     return choices[Math.floor(Math.random() * choices.length)];
 }
 
+const getPlayerSelection = () => {
+    const buttons = document.querySelectorAll('.btn');
+
+    let playerSelection = '';
+
+    buttons.forEach((btn) => {
+        btn.addEventListener('click',(e) => {
+            playerSelection = e.target.textContent;
+            
+        });
+    });
+}
+
 const playRound = (playerSelection, computerSelection) => {
     playerSelection = playerSelection.toLowerCase();
     computerSelection = computerSelection.toLowerCase();
