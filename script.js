@@ -1,44 +1,61 @@
+const buttons = document.querySelectorAll(".btn");
+const resultDiv = document.getElementById("round-result");
+
 const getComputerChoice = () => {
     const choices = ["Rock", "Paper", "Scissors"];
     return choices[Math.floor(Math.random() * choices.length)];
-}
+};
 
-const getPlayerSelection = () => {
-    const buttons = document.querySelectorAll('.btn');
-
-    let playerSelection = '';
-
-    buttons.forEach((btn) => {
-        btn.addEventListener('click',(e) => {
-            playerSelection = e.target.textContent;
-            
-        });
-    });
-}
-
-const playRound = (playerSelection, computerSelection) => {
-    playerSelection = playerSelection.toLowerCase();
-    computerSelection = computerSelection.toLowerCase();
+const playRound = (pSel) => {
+    const playerSelection = pSel.toLowerCase();
+    const computerSelection = getComputerChoice().toLowerCase();
 
     switch (true) {
         case playerSelection === computerSelection:
-            return "It's a tie!";
-        case (
-            (playerSelection === "rock" && computerSelection === "scissors") ||
+            resultDiv.textContent = `It's a tie! Computer choice is ${computerSelection}`;
+            return "tie";
+            break;
+        case (playerSelection === "rock" && computerSelection === "scissors") ||
             (playerSelection === "paper" && computerSelection === "rock") ||
-            (playerSelection === "scissors" && computerSelection === "paper")
-        ):
-            return `You win! ${playerSelection} beats ${computerSelection}.`;
+            (playerSelection === "scissors" && computerSelection === "paper"):
+            resultDiv.textContent = `You win, ${playerSelection} beats ${computerSelection}.`;
+            return "win";
+            break;
         default:
-            return `You lose! ${computerSelection} beats ${playerSelection}.`;
+            resultDiv.textContent = `You lose, ${computerSelection} beats ${playerSelection}.`;
+            return "lose";
+            break;
     }
-}
+};
 
-const game = () => {
-    let playerWins = 0;
-    let computerWins = 0;
+let playerWins = 0;
+let computerWins = 0;
+let i = 0;
+const game = (pSel) => {
+    if (computerWins <= 5 || playerWins <= 5) {
+        const result = playRound(pSel);
+        if (result == "win") {
+            playerWins++;
+        }
+        if (result == "lose") {
+            computerWins++;
+        }
+        document.getElementById(
+            "score"
+        ).textContent = `${playerWins} / ${computerWins}`;
+    }
+    if (playerWins == 5) {
+        resultDiv.textContent = "Game over! Player wins!";
+        buttons.forEach((btn) => btn.setAttribute("disabled", ""));
+    }
+    if (computerWins == 5) {
+        resultDiv.textContent = "Game over! Computer wins!";
+        buttons.forEach((btn) => btn.setAttribute("disabled", ""));
+    }
+};
 
-
-}
-
-game();
+buttons.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+        game(e.target.textContent);
+    });
+});
